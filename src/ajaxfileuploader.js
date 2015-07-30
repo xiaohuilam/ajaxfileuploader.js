@@ -15,6 +15,15 @@
         dataType: 'json',
         minSize: 1,
         maxSize: 5*1024*1024,
+        allowExt: {
+            jpg: 1,
+            png: 1,
+            gif: 1,
+            jpeg: 1,
+            bmp: 1,
+            ico: 1,
+            webp: 1
+        }
         beforeUpload: function(file, nonce){
             console.log(file);
             console.log(nonce);
@@ -222,6 +231,16 @@
             that = this;
             $(document).ready(function() {
                 $(that).on('change', function(e) {
+                    try{
+                        that_ext = $(that).val().split('.').reverse()[0];
+                        if ('undefined' === typeof _o.allowExt[that_ext] || _o.allowExt[that_ext] != 1) {
+                            alert('此类文件不允许上传');
+                            return false;
+                        }
+                    }catch(e){
+                        alert('此类文件不允许上传');
+                        return false;
+                    }
                     $.ajaxFileUpload({
                         url: _o.url,
                         secureuri: _o.secureuri,
@@ -231,6 +250,7 @@
                         dataType: _o.dataType,
                         minSize: _o.minSize,
                         maxSize: _o.maxSize,
+                        allowExt: _o.allowExt,
                         srcElement: $(e.target),
                         success: function(data, nonce, element) {
                             if ('string' === typeof data) {data = $.parseJSON(data);};
