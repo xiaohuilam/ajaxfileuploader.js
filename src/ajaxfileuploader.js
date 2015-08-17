@@ -233,11 +233,13 @@
                 $(that).on('change', function(e) {
                     try{
                         that_ext = $(that).val().split('.').reverse()[0];
-                        if ($(that).val().length > 0 && 'undefined' === typeof _o.allowExt[that_ext] || _o.allowExt[that_ext] != 1) {
+                        if ($(that).val().length > 0 && ('undefined' === typeof _o.allowExt[that_ext] || _o.allowExt[that_ext] != 1)) {
+                            $(that).val('');
                             alert('此类文件不允许上传');
                             return false;
                         }
                     }catch(e){
+                        $(that).val('');
                         alert('此类文件不允许上传');
                         return false;
                     }
